@@ -121,6 +121,19 @@
     cursor: none;
   }
   .nav-cta:hover { background: var(--yellow-hot); transform: translateY(-1px); }
+  .nav-logo-img { height: 44px; width: auto; display: block; filter: drop-shadow(0 0 14px rgba(245,216,50,0.45)); }
+
+  /* HERO logo centerpiece */
+  .hero-logo {
+    max-width: 220px;
+    width: 38vw;
+    height: auto;
+    margin: 0 auto 24px;
+    display: block;
+    filter: drop-shadow(0 0 40px rgba(245,216,50,0.5));
+    opacity: 0;
+    animation: fade-up 0.8s ease 0.05s forwards;
+  }
 
   /* ============ HERO ============ */
   #hero {
@@ -591,6 +604,23 @@
   }
   .ba-label.before { background: rgba(0,0,0,0.8); color: var(--grey); }
   .ba-label.after { background: var(--yellow); color: var(--black); }
+  /* single-image před/po (jedna fotka rozdělená na 2) */
+  .ba-images-single {
+    position: relative;
+    display: block;
+    aspect-ratio: 16/7;
+    overflow: hidden;
+    background: #111;
+  }
+  .ba-images-single::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 50%;
+    width: 2px;
+    background: var(--yellow);
+    z-index: 1;
+    box-shadow: 0 0 12px rgba(245,216,50,0.6);
+  }
 
   .ba-info {
     padding: 20px 24px;
@@ -1125,7 +1155,9 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">AUTO <span>OPTIKA</span></a>
+  <a href="#" class="nav-logo" aria-label="AUTO OPTIKA.CZ">
+    <img src="logo.png" alt="AUTO OPTIKA.CZ" class="nav-logo-img">
+  </a>
   <ul class="nav-links">
     <li><a href="#process">Postup</a></li>
     <li><a href="#results">Výsledky</a></li>
@@ -1146,6 +1178,7 @@
   <div class="beam beam-4"></div>
 
   <div class="hero-content">
+    <img src="logo.png" alt="AUTO OPTIKA.CZ" class="hero-logo">
     <div class="hero-badge">Profesionální renovace světlometů · České Budějovice · jezdíme po celé ČR</div>
     <h1 class="hero-title">
       <span class="line-yellow">Vidíte v noci špatně?</span>
@@ -1344,20 +1377,15 @@
 
     <div class="ba-container reveal">
       <div class="ba-card">
-        <div class="ba-images">
-          <div class="ba-img-wrap">
-            <span class="ba-label before">PŘED</span>
-            <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400&q=80" alt="Světlomet před" style="filter:grayscale(0.5) brightness(0.7);">
-          </div>
-          <div class="ba-img-wrap">
-            <span class="ba-label after">PO</span>
-            <img src="https://images.unsplash.com/photo-1518655048521-f130df041f66?w=400&q=80" alt="Světlomet po" style="filter:brightness(1.1) contrast(1.05);">
-          </div>
+        <div class="ba-images ba-images-single">
+          <span class="ba-label before" style="left:16px; right:auto;">PŘED</span>
+          <span class="ba-label after" style="right:16px; left:auto;">PO</span>
+          <img src="bmw-before-after.png" alt="BMW – renovace světlometu před a po" style="width:100%; height:100%; object-fit:cover; display:block;">
         </div>
         <div class="ba-info">
           <div>
-            <div class="ba-car">BMW E46</div>
-            <div class="ba-year">Rok výroby 2001 · 23 let stáří</div>
+            <div class="ba-car">BMW E65</div>
+            <div class="ba-year">Reálný výsledek · zákazník z ČB</div>
           </div>
           <div class="ba-rating">★★★★★</div>
         </div>
@@ -1588,6 +1616,7 @@
     <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;" class="reveal">
       <a href="tel:+420602384938" class="btn-primary">📞 Zavolat hned</a>
       <a href="mailto:auto-optika@seznam.cz" class="btn-outline">📧 Napsat email</a>
+      <a href="https://www.instagram.com/auto_optika.cz/" target="_blank" rel="noopener" class="btn-outline">📷 Instagram</a>
     </div>
     <div class="cta-contact reveal">
       <div class="contact-item">
@@ -1612,12 +1641,13 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">AUTO <span>OPTIKA</span></div>
+  <div class="footer-logo"><img src="logo.png" alt="AUTO OPTIKA.CZ" style="height:48px; width:auto; filter:drop-shadow(0 0 12px rgba(245,216,50,0.4));"></div>
   <div class="footer-text">© 2025 auto-optika.cz · Profesionální renovace světlometů · České Budějovice &amp; celá ČR</div>
   <ul class="footer-links">
     <li><a href="#process">Postup</a></li>
     <li><a href="#pricing">Ceník</a></li>
     <li><a href="#cta">Kontakt</a></li>
+    <li><a href="https://www.instagram.com/auto_optika.cz/" target="_blank" rel="noopener">Instagram</a></li>
   </ul>
 </footer>
 
