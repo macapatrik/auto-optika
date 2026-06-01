@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUTO OPTIKA – Profesionální renovace světlometů</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --deep: #0f0f0f;
+    --panel: #161616;
+    --yellow: #f5d832;
+    --yellow-hot: #ffe347;
+    --yellow-glow: rgba(245, 216, 50, 0.18);
+    --yellow-dim: rgba(245, 216, 50, 0.08);
+    --white: #f0ede6;
+    --grey: #8a8680;
+    --border: rgba(245, 216, 50, 0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--yellow);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(245, 216, 50, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease-out, width 0.25s, height 0.25s, border-color 0.2s;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9990;
+    opacity: 0.4;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: var(--yellow);
+    text-shadow: 0 0 20px rgba(245,216,50,0.6);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 10px 24px;
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    text-decoration: none;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.15s;
+    cursor: none;
+  }
+  .nav-cta:hover { background: var(--yellow-hot); transform: translateY(-1px); }
+
+  /* ============ HERO ============ */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 48px 80px;
+  }
+
+  /* Animated headlight beams */
+  .beam {
+    position: absolute;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to top, var(--yellow), transparent);
+    transform-origin: bottom center;
+    opacity: 0;
+    animation: beam-in 2s ease forwards;
+  }
+  .beam-1 { left: 32%; height: 70%; transform: rotate(-15deg); animation-delay: 0.3s; }
+  .beam-2 { left: 35%; height: 85%; transform: rotate(-8deg); animation-delay: 0.5s; opacity: 0.6; }
+  .beam-3 { right: 32%; height: 70%; transform: rotate(15deg); animation-delay: 0.3s; }
+  .beam-4 { right: 35%; height: 85%; transform: rotate(8deg); animation-delay: 0.5s; opacity: 0.6; }
+
+  @keyframes beam-in {
+    0% { opacity: 0; height: 0; }
+    100% { opacity: 0.15; }
+  }
+
+  .hero-glow-left, .hero-glow-right {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,216,50,0.12) 0%, transparent 70%);
+    bottom: -100px;
+    pointer-events: none;
+    animation: pulse-glow 3s ease-in-out infinite alternate;
+  }
+  .hero-glow-left { left: 15%; }
+  .hero-glow-right { right: 15%; animation-delay: 0.5s; }
+
+  @keyframes pulse-glow {
+    from { opacity: 0.6; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.1); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    border: 1px solid var(--border);
+    padding: 6px 16px;
+    margin-bottom: 32px;
+    animation: fade-up 0.6s ease forwards;
+    opacity: 0;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--yellow);
+    border-radius: 50%;
+    animation: blink 1.5s ease infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fade-up 0.8s ease 0.2s forwards;
+  }
+  .hero-title .line-yellow {
+    display: block;
+    color: var(--yellow);
+    text-shadow: 0 0 60px rgba(245,216,50,0.4), 0 0 120px rgba(245,216,50,0.15);
+  }
+  .hero-title .line-white { display: block; color: var(--white); }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--grey);
+    max-width: 540px;
+    margin: 28px auto 48px;
+    opacity: 0;
+    animation: fade-up 0.8s ease 0.4s forwards;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 500; }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fade-up 0.8s ease 0.6s forwards;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    text-decoration: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.2s;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.4s;
+  }
+  .btn-primary:hover::after { transform: translateX(100%); }
+  .btn-primary:hover { background: var(--yellow-hot); box-shadow: 0 0 30px rgba(245,216,50,0.4); }
+
+  .btn-outline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 15px 40px;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.25);
+    text-decoration: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-stats {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    opacity: 0;
+    animation: fade-up 0.8s ease 0.8s forwards;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--yellow);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(245,216,50,0.3);
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-top: 4px;
+  }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fade-up 1s ease 1.2s forwards;
+  }
+  .scroll-hint span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--grey);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--yellow), transparent);
+    animation: scroll-drop 2s ease infinite;
+  }
+  @keyframes scroll-drop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ============ MARQUEE ============ */
+  .marquee-strip {
+    overflow: hidden;
+    background: var(--yellow);
+    padding: 14px 0;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: var(--black);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .marquee-item::after {
+    content: '◆';
+    font-size: 0.5rem;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============ SECTIONS ============ */
+  section { padding: 100px 48px; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--yellow);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+  }
+
+  /* ============ PROBLEM/TARGET ============ */
+  #problem {
+    background: var(--deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 100px 48px;
+  }
+
+  .problem-visual {
+    position: relative;
+  }
+  .age-meter {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 32px;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  }
+  .age-meter-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 24px;
+  }
+  .age-bar-row {
+    margin-bottom: 16px;
+  }
+  .age-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--grey);
+    margin-bottom: 6px;
+  }
+  .age-bar-label span:last-child { color: var(--yellow); font-weight: 600; }
+  .age-bar-track {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 0;
+    overflow: hidden;
+  }
+  .age-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--yellow), var(--yellow-hot));
+    width: 0;
+    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(245,216,50,0.4);
+  }
+
+  .target-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .target-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    color: var(--yellow);
+    transition: all 0.2s;
+  }
+  .target-tag:hover {
+    background: var(--yellow-dim);
+    border-color: var(--yellow);
+  }
+
+  /* ============ PROCESS ============ */
+  #process {
+    background: var(--black);
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .process-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .process-card {
+    background: var(--panel);
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: none;
+  }
+  .process-card:hover {
+    border-color: var(--yellow);
+    transform: translateY(-4px);
+  }
+  .process-card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: -10px; right: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    color: rgba(245,216,50,0.04);
+    pointer-events: none;
+  }
+  .process-icon {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  .process-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 10px;
+  }
+  .process-card p {
+    font-size: 0.85rem;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+
+  /* ============ BEFORE/AFTER ============ */
+  #results {
+    background: var(--deep);
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .ba-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .ba-card {
+    position: relative;
+    overflow: hidden;
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: none;
+  }
+  .ba-card:hover .ba-overlay { opacity: 1; }
+  .ba-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .ba-img-wrap {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #111;
+  }
+  .ba-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.1);
+  }
+  .ba-label {
+    position: absolute;
+    top: 12px; left: 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    z-index: 2;
+  }
+  .ba-label.before { background: rgba(0,0,0,0.8); color: var(--grey); }
+  .ba-label.after { background: var(--yellow); color: var(--black); }
+
+  .ba-info {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ba-car {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .ba-year {
+    font-size: 0.78rem;
+    color: var(--grey);
+    margin-top: 2px;
+  }
+  .ba-rating {
+    color: var(--yellow);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+  }
+
+  /* Full width BA */
+  .ba-full {
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: none;
+  }
+  .ba-full .ba-images {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ba-full .ba-img-wrap {
+    aspect-ratio: 16/9;
+  }
+
+  /* ============ PRICING ============ */
+  #pricing {
+    background: var(--black);
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .pricing-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .pricing-card {
+    background: var(--panel);
+    padding: 48px 36px;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    transition: transform 0.3s;
+    cursor: none;
+  }
+  .pricing-card:hover { transform: translateY(-6px); }
+  .pricing-card.featured {
+    background: var(--yellow);
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    transform: scaleY(1.03);
+  }
+  .pricing-card.featured:hover { transform: scaleY(1.03) translateY(-6px); }
+  .price-tier {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .pricing-card.featured .price-tier { color: rgba(0,0,0,0.6); }
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--yellow);
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+  .pricing-card.featured .price-amount { color: var(--black); }
+  .price-unit {
+    font-size: 0.78rem;
+    color: var(--grey);
+    margin-bottom: 32px;
+  }
+  .pricing-card.featured .price-unit { color: rgba(0,0,0,0.55); }
+  .price-features {
+    list-style: none;
+    margin-bottom: 36px;
+  }
+  .price-features li {
+    font-size: 0.88rem;
+    color: var(--grey);
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pricing-card.featured .price-features li {
+    color: rgba(0,0,0,0.7);
+    border-bottom-color: rgba(0,0,0,0.1);
+  }
+  .price-features li::before {
+    content: '→';
+    color: var(--yellow);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+  .pricing-card.featured .price-features li::before { color: var(--black); }
+  .price-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+  .pricing-card.featured .price-name { color: var(--black); }
+
+  .btn-price {
+    display: block;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px;
+    border: 1px solid var(--border);
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .btn-price:hover { background: var(--yellow-dim); border-color: var(--yellow); color: var(--yellow); }
+  .btn-price-dark {
+    display: block;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 14px;
+    background: var(--black);
+    color: var(--black);
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: none;
+    color: var(--yellow);
+  }
+  .btn-price-dark:hover { background: rgba(0,0,0,0.8); }
+
+  /* ============ WHY US ============ */
+  #why {
+    background: var(--deep);
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 64px;
+  }
+  .why-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .why-item {
+    background: var(--panel);
+    padding: 28px 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s;
+    cursor: none;
+  }
+  .why-item:hover {
+    border-left-color: var(--yellow);
+    background: #1a1a1a;
+  }
+  .why-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .why-item h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .why-item p {
+    font-size: 0.85rem;
+    color: var(--grey);
+    line-height: 1.5;
+  }
+  .why-visual {
+    position: relative;
+  }
+  .why-big-quote {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+  .why-big-quote em {
+    font-style: normal;
+    color: var(--yellow);
+    text-shadow: 0 0 40px rgba(245,216,50,0.3);
+  }
+  .brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    margin-top: 32px;
+  }
+  .brand-logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.1em;
+    color: var(--yellow);
+  }
+  .brand-desc {
+    font-size: 0.82rem;
+    color: var(--grey);
+    line-height: 1.4;
+  }
+
+  /* ============ TARGET VEHICLES ============ */
+  #vehicles {
+    background: var(--black);
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 100px 48px;
+  }
+  .vehicles-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+  .vehicle-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+  }
+  .vehicle-card {
+    background: var(--panel);
+    padding: 28px 20px;
+    text-align: center;
+    border-top: 2px solid transparent;
+    transition: all 0.3s;
+    cursor: none;
+  }
+  .vehicle-card:hover {
+    border-top-color: var(--yellow);
+    background: #1a1a1a;
+  }
+  .vehicle-card:hover .vehicle-icon { transform: scale(1.15); }
+  .vehicle-icon {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    display: block;
+    transition: transform 0.3s;
+  }
+  .vehicle-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .vehicle-note {
+    font-size: 0.72rem;
+    color: var(--grey);
+  }
+
+  /* ============ REVIEWS ============ */
+  #reviews {
+    background: var(--deep);
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 100px 48px;
+  }
+  .reviews-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .review-card {
+    background: var(--panel);
+    padding: 36px 32px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+  }
+  .review-card:hover { border-bottom-color: var(--yellow); }
+  .review-stars {
+    color: var(--yellow);
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+  .review-text {
+    font-size: 0.9rem;
+    color: var(--grey);
+    line-height: 1.65;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .review-author {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .review-car {
+    font-size: 0.75rem;
+    color: var(--yellow);
+    margin-top: 2px;
+  }
+
+  /* ============ CTA ============ */
+  #cta {
+    background: var(--black);
+    padding: 120px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta::before {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 400px;
+    background: radial-gradient(ellipse, rgba(245,216,50,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.92;
+    margin-bottom: 24px;
+  }
+  .cta-title span { color: var(--yellow); text-shadow: 0 0 60px rgba(245,216,50,0.4); }
+  .cta-sub {
+    font-size: 1rem;
+    color: var(--grey);
+    margin-bottom: 48px;
+  }
+  .cta-contact {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .contact-item {
+    text-align: center;
+  }
+  .contact-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 6px;
+  }
+  .contact-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--yellow);
+    text-decoration: none;
+    transition: text-shadow 0.2s;
+  }
+  .contact-value:hover { text-shadow: 0 0 20px rgba(245,216,50,0.5); }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--deep);
+    padding: 48px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    color: var(--yellow);
+    text-shadow: 0 0 15px rgba(245,216,50,0.3);
+  }
+  .footer-logo span { color: var(--grey); }
+  .footer-text {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.05em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--yellow); }
+
+  /* ============ ANIMATE ON SCROLL ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-left.visible { opacity: 1; transform: none; }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section, #hero, #problem, #vehicles, #reviews, #cta { padding: 60px 24px; }
+    #problem, .why-grid, .vehicles-intro, .process-header, .pricing-header, .reviews-header { grid-template-columns: 1fr; gap: 40px; }
+    .process-grid, .vehicle-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing-grid, .ba-container, .reviews-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 32px; flex-wrap: wrap; }
+    .hero-title { font-size: clamp(3.5rem, 12vw, 6rem); }
+    footer { flex-direction: column; align-items: flex-start; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+
+  /* Divider line */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(245,216,50,0.3), transparent);
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">AUTO <span>OPTIKA</span></a>
+  <ul class="nav-links">
+    <li><a href="#process">Postup</a></li>
+    <li><a href="#results">Výsledky</a></li>
+    <li><a href="#pricing">Ceník</a></li>
+    <li><a href="#reviews">Recenze</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Rezervovat</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow-left"></div>
+  <div class="hero-glow-right"></div>
+  <div class="beam beam-1"></div>
+  <div class="beam beam-2"></div>
+  <div class="beam beam-3"></div>
+  <div class="beam beam-4"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Profesionální renovace světlometů · Ostrava</div>
+    <h1 class="hero-title">
+      <span class="line-yellow">Vidíš</span>
+      <span class="line-white">v noci špatně?</span>
+    </h1>
+    <p class="hero-sub">
+      Hloubkové strojní broušení a vícekrokové leštění s <strong>keramickou UV ochranou</strong>.
+      Výsledek, který vydrží <strong>roky, ne měsíce</strong>.
+    </p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Zarezervovat termín</a>
+      <a href="#results" class="btn-outline">Podívat se na výsledky</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num" data-target="200">0</div>
+        <div class="stat-label">Spokojených aut</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="4">0</div>
+        <div class="stat-label">Kroky broušení</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Roky ochrany</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5★</div>
+        <div class="stat-label">Hodnocení zákazníků</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Hloubkové broušení</div>
+    <div class="marquee-item">Keramická UV ochrana</div>
+    <div class="marquee-item">Koch Chemie</div>
+    <div class="marquee-item">Veteráni a oldtimery</div>
+    <div class="marquee-item">Výsledky trvající roky</div>
+    <div class="marquee-item">Ostrava a okolí</div>
+    <div class="marquee-item">Auta starší 15 let</div>
+    <div class="marquee-item">Profesionální vybavení Rupes</div>
+    <div class="marquee-item">Hloubkové broušení</div>
+    <div class="marquee-item">Keramická UV ochrana</div>
+    <div class="marquee-item">Koch Chemie</div>
+    <div class="marquee-item">Veteráni a oldtimery</div>
+    <div class="marquee-item">Výsledky trvající roky</div>
+    <div class="marquee-item">Ostrava a okolí</div>
+    <div class="marquee-item">Auta starší 15 let</div>
+    <div class="marquee-item">Profesionální vybavení Rupes</div>
+  </div>
+</div>
+
+<!-- PROBLEM SECTION -->
+<section style="background:var(--deep); padding:100px 0;">
+<div id="problem">
+  <div>
+    <div class="section-label reveal-left">Cílíme na tato auta</div>
+    <h2 class="section-title reveal-left">Čím starší auto,<br><span style="color:var(--yellow)">tím větší problém.</span></h2>
+    <p style="color:var(--grey); font-size:0.92rem; line-height:1.7; margin-bottom:28px;" class="reveal-left">
+      Polykarbonátové kryty světlometů začínají oxidovat po 5–7 letech.
+      U aut starších 15 let může být svítivost snížena až o <strong style="color:var(--white)">70 %</strong>.
+      To není jen estetický problém — je to bezpečnostní riziko.
+    </p>
+    <div class="target-tags reveal">
+      <span class="target-tag">Starší 15 let</span>
+      <span class="target-tag">Veteráni</span>
+      <span class="target-tag">Oldtimery</span>
+      <span class="target-tag">Youngtimery</span>
+      <span class="target-tag">Klasická auta</span>
+      <span class="target-tag">Dodávky</span>
+    </div>
+  </div>
+
+  <div class="problem-visual reveal">
+    <div class="age-meter">
+      <div class="age-meter-title">Stupeň poškození světlometu dle stáří auta</div>
+      <div class="age-bar-row">
+        <div class="age-bar-label"><span>5–10 let</span><span>Lehká oxidace</span></div>
+        <div class="age-bar-track"><div class="age-bar-fill" data-width="35"></div></div>
+      </div>
+      <div class="age-bar-row">
+        <div class="age-bar-label"><span>10–15 let</span><span>Výrazné zažloutnutí</span></div>
+        <div class="age-bar-track"><div class="age-bar-fill" data-width="60"></div></div>
+      </div>
+      <div class="age-bar-row">
+        <div class="age-bar-label"><span>15–25 let</span><span>Silná oxidace + škrábance</span></div>
+        <div class="age-bar-track"><div class="age-bar-fill" data-width="82"></div></div>
+      </div>
+      <div class="age-bar-row">
+        <div class="age-bar-label"><span>25+ let (veterán)</span><span>Kritický stav</span></div>
+        <div class="age-bar-track"><div class="age-bar-fill" data-width="95"></div></div>
+      </div>
+      <div style="margin-top:20px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.06);">
+        <p style="font-size:0.78rem; color:var(--grey);">📍 Výměna nových světlometů u veterána = <strong style="color:var(--white)">5 000–30 000 Kč</strong><br>Renovace u nás = <strong style="color:var(--yellow)">od 500 Kč za kus</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" style="padding:100px 48px;">
+  <div class="process-header">
+    <div>
+      <div class="section-label reveal-left">Jak to děláme</div>
+      <h2 class="section-title reveal-left">Postup,<br><span style="color:var(--yellow)">krok po kroku.</span></h2>
+    </div>
+    <div>
+      <p style="color:var(--grey); font-size:0.92rem; line-height:1.7;" class="reveal">
+        Každý světlomet projde čtyřfázovým procesem. Žádné zkratky, žádná chemie
+        bez broušení. Výsledek musí vydržet — proto používáme profesionální vybavení
+        <strong style="color:var(--white)">Rupes</strong> a přípravky <strong style="color:var(--white)">Koch Chemie</strong>.
+      </p>
+    </div>
+  </div>
+  <div class="process-grid reveal">
+    <div class="process-card" data-num="01">
+      <div class="process-icon">🔍</div>
+      <h3>Diagnostika</h3>
+      <p>Posoudíme stav krytu a zvolíme správnou hrubost smirkového papíru dle rozsahu poškození.</p>
+    </div>
+    <div class="process-card" data-num="02">
+      <div class="process-icon">💧</div>
+      <h3>Mokré broušení</h3>
+      <p>Vícestupňové mokré broušení pod vodou — od hrubých zrn po ultra-jemné. Odstraní oxidaci do hloubky.</p>
+    </div>
+    <div class="process-card" data-num="03">
+      <div class="process-icon">✨</div>
+      <h3>Strojní leštění</h3>
+      <p>Profesionálním strojem Rupes a lešticí pastou Koch Chemie obnovíme absolutní čirost plastu.</p>
+    </div>
+    <div class="process-card" data-num="04">
+      <div class="process-icon">🛡️</div>
+      <h3>UV keramika</h3>
+      <p>Nanesení keramické UV ochrany — brání opětovné oxidaci a zajistí výsledek trvající 2–3 roky.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEFORE/AFTER -->
+<section id="results" style="background:var(--deep); padding:100px 48px;">
+  <div id="results-inner" style="max-width:1300px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:end; margin-bottom:64px;">
+      <div>
+        <div class="section-label reveal-left">Před & Po</div>
+        <h2 class="section-title reveal-left">Výsledky,<br><span style="color:var(--yellow)">které mluví za vše.</span></h2>
+      </div>
+      <div>
+        <p style="color:var(--grey); font-size:0.92rem; line-height:1.7;" class="reveal">
+          Každý projekt fotíme před a po renovaci. Žádné filtry, žádné triky.
+          Reálné výsledky od skutečných zákazníků z Ostravy a okolí.
+        </p>
+      </div>
+    </div>
+
+    <div class="ba-container reveal">
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img-wrap">
+            <span class="ba-label before">PŘED</span>
+            <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=400&q=80" alt="Světlomet před" style="filter:grayscale(0.5) brightness(0.7);">
+          </div>
+          <div class="ba-img-wrap">
+            <span class="ba-label after">PO</span>
+            <img src="https://images.unsplash.com/photo-1518655048521-f130df041f66?w=400&q=80" alt="Světlomet po" style="filter:brightness(1.1) contrast(1.05);">
+          </div>
+        </div>
+        <div class="ba-info">
+          <div>
+            <div class="ba-car">BMW E46</div>
+            <div class="ba-year">Rok výroby 2001 · 23 let stáří</div>
+          </div>
+          <div class="ba-rating">★★★★★</div>
+        </div>
+      </div>
+      <div class="ba-card">
+        <div class="ba-images">
+          <div class="ba-img-wrap">
+            <span class="ba-label before">PŘED</span>
+            <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&q=80" alt="Světlomet před" style="filter:grayscale(0.5) brightness(0.65) sepia(0.3);">
+          </div>
+          <div class="ba-img-wrap">
+            <span class="ba-label after">PO</span>
+            <img src="https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=400&q=80" alt="Světlomet po">
+          </div>
+        </div>
+        <div class="ba-info">
+          <div>
+            <div class="ba-car">VW Golf IV</div>
+            <div class="ba-year">Rok výroby 2003 · 21 let stáří</div>
+          </div>
+          <div class="ba-rating">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Big callout stat -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px; margin-top:2px;" class="reveal">
+      <div style="background:var(--panel); padding:40px; text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:3.5rem; color:var(--yellow); text-shadow:0 0 30px rgba(245,216,50,0.3);">70%</div>
+        <div style="font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-top:6px;">Průměrné zlepšení svítivosti</div>
+      </div>
+      <div style="background:var(--yellow); padding:40px; text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:3.5rem; color:var(--black);">2–3</div>
+        <div style="font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:rgba(0,0,0,0.6); margin-top:6px;">Roky výdrže UV ochrany</div>
+      </div>
+      <div style="background:var(--panel); padding:40px; text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:3.5rem; color:var(--yellow); text-shadow:0 0 30px rgba(245,216,50,0.3);">90%</div>
+        <div style="font-size:0.78rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--grey); margin-top:6px;">Zákazníků projde STK bez problémů</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="padding:100px 48px;">
+  <div class="pricing-header">
+    <div>
+      <div class="section-label reveal-left">Transparentní ceny</div>
+      <h2 class="section-title reveal-left">Ceník<br><span style="color:var(--yellow)">bez překvapení.</span></h2>
+    </div>
+    <p style="color:var(--grey); font-size:0.92rem; line-height:1.7;" class="reveal">
+      Cena závisí na stavu světlometu a zvoleném stupni ochrany. 
+      Zákazníkům aut starších 15 let a veteránů <strong style="color:var(--yellow)">nabízíme speciální sazbu</strong>.
+    </p>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="price-tier">Základní</div>
+      <div class="price-name">LESK</div>
+      <div class="price-amount">500</div>
+      <div class="price-unit">Kč / kus světlometu</div>
+      <ul class="price-features">
+        <li>Mokré broušení 3 kroky</li>
+        <li>Strojní leštění</li>
+        <li>Základní ochrana voskem</li>
+        <li>Výdrž 6–12 měsíců</li>
+      </ul>
+      <a href="#cta" class="btn-price">Objednat</a>
+    </div>
+    <div class="pricing-card featured">
+      <div class="price-tier">Nejoblíbenější</div>
+      <div class="price-name">RENOVACE</div>
+      <div class="price-amount" style="color:var(--black);">800</div>
+      <div class="price-unit">Kč / kus světlometu</div>
+      <ul class="price-features">
+        <li>Mokré broušení 5 kroků</li>
+        <li>Profesionální strojní leštění</li>
+        <li>Keramická UV ochrana</li>
+        <li>Výdrž 2–3 roky</li>
+        <li>Fotodokumentace před/po</li>
+      </ul>
+      <a href="#cta" class="btn-price-dark">Objednat</a>
+    </div>
+    <div class="pricing-card">
+      <div class="price-tier">Prémiový</div>
+      <div class="price-name">VETERÁN</div>
+      <div class="price-amount">1200</div>
+      <div class="price-unit">Kč / kus světlometu</div>
+      <ul class="price-features">
+        <li>Kompletní diagnostika</li>
+        <li>Mokré broušení 7 kroků</li>
+        <li>Dvouvrstvá keramická ochrana</li>
+        <li>PPF fólie volitelně</li>
+        <li>Výdrž 3–5 let</li>
+        <li>Certifikát pro STK</li>
+      </ul>
+      <a href="#cta" class="btn-price">Objednat</a>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:28px; font-size:0.8rem; color:var(--grey);">
+    Ceny jsou orientační. Konečná cena závisí na skutečném stavu světlometu.
+    Veteráni a oldtimery — <a href="#cta" style="color:var(--yellow);">napište si o individuální nabídku</a>.
+  </p>
+</section>
+
+<!-- WHY US -->
+<section id="why" style="background:var(--deep); padding:100px 48px;">
+  <div id="why-inner" style="max-width:1300px; margin:0 auto;">
+    <div class="section-label reveal-left">Proč my</div>
+    <div class="why-grid">
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-icon">🔧</div>
+          <div>
+            <h4>Profesionální vybavení</h4>
+            <p>Pracujeme s excentrickou leštičkou Rupes — stejnou, jakou používají detaileři Ferrari a Porsche.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🧪</div>
+          <div>
+            <h4>Koch Chemie přípravky</h4>
+            <p>Německá chemie pro profesionály. Výsledek bez kompromisů — ani při kritickém stavu plastu.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">🏎️</div>
+          <div>
+            <h4>Specialisté na veterány</h4>
+            <p>Máme zkušenosti s auty od 80. a 90. let, kde jsou plastové kryty extrémně opotřebované.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">📷</div>
+          <div>
+            <h4>Fotodokumentace</h4>
+            <p>Fotíme každé auto před a po. Dostanete jasný důkaz výsledku — ideální pro prodej auta.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">✅</div>
+          <div>
+            <h4>Snazší průchod STK</h4>
+            <p>Technická kontrola hodnotí i stav světlometů. Renovace zlepší svítivost i hodnocení STK.</p>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual">
+        <div class="why-big-quote reveal">
+          "Nestačí jen vyleštit. Musíme brousit,<br>
+          leštit a <em>chránit</em> — jinak oxidace<br>
+          přijde zpátky za pár měsíců."
+        </div>
+        <p style="color:var(--grey); font-size:0.85rem; margin-bottom:32px;" class="reveal">
+          Většina levných služeb nanáší jen vosk na hrubý povrch. My plastový kryt
+          nejprve zcela zbrousíme do hloubky, teprve pak leštíme a chráníme.
+          Výsledek vydrží roky.
+        </p>
+        <div class="brand-badge reveal">
+          <div>
+            <div class="brand-logo-text">Koch Chemie</div>
+            <div class="brand-desc">Německé profesionální přípravky pro autodetailing</div>
+          </div>
+          <div style="margin-left:auto; padding-left:24px; border-left:1px solid var(--border);">
+            <div class="brand-logo-text">Rupes</div>
+            <div class="brand-desc">Italské profesionální leštičky</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VEHICLES -->
+<section id="vehicles">
+  <div class="vehicles-intro">
+    <div>
+      <div class="section-label reveal-left">Pro koho jsme</div>
+      <h2 class="section-title reveal-left">Máš<br><span style="color:var(--yellow)">klasiku?</span></h2>
+    </div>
+    <p style="color:var(--grey); font-size:0.92rem; line-height:1.7;" class="reveal">
+      Zaměřujeme se na auta, pro která jsou náhradní díly buď nedostupné,
+      nebo nesmírně drahé. Renovace je v těchto případech jediné rozumné řešení.
+    </p>
+  </div>
+  <div class="vehicle-grid reveal">
+    <div class="vehicle-card">
+      <span class="vehicle-icon">🚗</span>
+      <div class="vehicle-name">Youngtimery</div>
+      <div class="vehicle-note">15–30 let stáří</div>
+    </div>
+    <div class="vehicle-card">
+      <span class="vehicle-icon">🏎️</span>
+      <div class="vehicle-name">Veteráni</div>
+      <div class="vehicle-note">30+ let stáří</div>
+    </div>
+    <div class="vehicle-card">
+      <span class="vehicle-icon">🚙</span>
+      <div class="vehicle-name">Oldtimery</div>
+      <div class="vehicle-note">Historická auta</div>
+    </div>
+    <div class="vehicle-card">
+      <span class="vehicle-icon">🚐</span>
+      <div class="vehicle-name">Dodávky</div>
+      <div class="vehicle-note">Firemní vozidla</div>
+    </div>
+    <div class="vehicle-card">
+      <span class="vehicle-icon">🏍️</span>
+      <div class="vehicle-name">Motorky</div>
+      <div class="vehicle-note">Plexi & štíty</div>
+    </div>
+  </div>
+  <div style="margin-top:48px; background:var(--panel); border-left:3px solid var(--yellow); padding:28px 32px; display:flex; align-items:center; gap:24px;" class="reveal">
+    <div style="font-size:1.8rem;">💡</div>
+    <div>
+      <strong style="font-family:'Barlow Condensed',sans-serif; font-size:1rem; letter-spacing:0.08em; text-transform:uppercase;">Tip pro majitele veteránů:</strong>
+      <p style="font-size:0.88rem; color:var(--grey); margin-top:4px; line-height:1.5;">U aut starých 30+ let jsou původní světlomety často nenahraditelné. Renovace prodlouží jejich životnost o 5–10 let a zachová historickou hodnotu vozidla.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-header">
+    <div>
+      <div class="section-label reveal-left">Hodnocení</div>
+      <h2 class="section-title reveal-left">Říkají o nás<br><span style="color:var(--yellow)">zákazníci.</span></h2>
+    </div>
+    <div style="display:flex; align-items:center; gap:24px;" class="reveal">
+      <div style="text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:5rem; line-height:1; color:var(--yellow);">5.0</div>
+        <div style="color:var(--yellow); font-size:1.1rem; letter-spacing:4px;">★★★★★</div>
+        <div style="font-size:0.75rem; color:var(--grey); margin-top:4px; letter-spacing:0.1em; text-transform:uppercase;">Průměrné hodnocení</div>
+      </div>
+    </div>
+  </div>
+  <div class="reviews-grid reveal">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Měl jsem BMW E30 z roku 1989 — světlomety úplně matné. Po renovaci vypadají jako nové. Rupes stroj a Koch chemie dělají divy. Doporučuju každému milovníku starých aut!"</p>
+      <div class="review-author">Petr K.</div>
+      <div class="review-car">BMW E30 · 1989</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Golf IV roku 2002, zkusil jsem nejdřív levnou variantu jinde — vybledlo za 3 měsíce. Tady mi to udělali pořádně s keramikou. Rok a půl a pořád jako nové."</p>
+      <div class="review-author">Martin B.</div>
+      <div class="review-car">VW Golf IV · 2002</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Škoda 120 L, veterán — myslel jsem, že světlomety jsou nenávratně zničené. Výsledek mě šokoval. Fotky před/po jsou neuvěřitelné. Přijdu znovu!"</p>
+      <div class="review-author">Zdeněk H.</div>
+      <div class="review-car">Škoda 120 L · 1983</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-content">
+    <div class="section-label reveal" style="justify-content:center;">Rezervace</div>
+    <h2 class="cta-title reveal">
+      Pojďme na to.<br>
+      <span>Dáme ti jasno</span><br>v noci.
+    </h2>
+    <p class="cta-sub reveal">Stačí napsat nebo zavolat. Domluvíme termín a přijedeme k tobě nebo přijď k nám.</p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;" class="reveal">
+      <a href="mailto:info@auto-optika.cz" class="btn-primary">📧 Napsat email</a>
+      <a href="tel:+420000000000" class="btn-outline">📞 Zavolat</a>
+    </div>
+    <div class="cta-contact reveal">
+      <div class="contact-item">
+        <div class="contact-label">Email</div>
+        <a href="mailto:info@auto-optika.cz" class="contact-value">info@auto-optika.cz</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Telefon</div>
+        <a href="tel:+420000000000" class="contact-value">+420 000 000 000</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Lokalita</div>
+        <div class="contact-value" style="cursor:default;">Ostrava a okolí</div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-label">Instagram</div>
+        <a href="#" class="contact-value">@auto.optika</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AUTO <span>OPTIKA</span></div>
+  <div class="footer-text">© 2025 Auto Optika · Profesionální renovace světlometů · Ostrava</div>
+  <ul class="footer-links">
+    <li><a href="#process">Postup</a></li>
+    <li><a href="#pricing">Ceník</a></li>
+    <li><a href="#cta">Kontakt</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, button, [class*="card"], [class*="btn"], [class*="item"]').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      ring.style.width = '56px'; ring.style.height = '56px';
+      ring.style.borderColor = 'rgba(245,216,50,0.9)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px'; cursor.style.height = '12px';
+      ring.style.width = '36px'; ring.style.height = '36px';
+      ring.style.borderColor = 'rgba(245,216,50,0.5)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal, .reveal-left');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // Animate bars
+  const barObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.age-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+        barObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const ageMeter = document.querySelector('.age-meter');
+  if (ageMeter) barObserver.observe(ageMeter);
+
+  // Counter animation
+  function animCount(el, target, suffix = '') {
+    let cur = 0;
+    const step = Math.max(1, Math.floor(target / 60));
+    const t = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      el.textContent = cur + suffix;
+      if (cur >= target) clearInterval(t);
+    }, 24);
+  }
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('[data-target]').forEach(el => {
+          animCount(el, parseInt(el.dataset.target), el.dataset.suffix || '+');
+        });
+        counterObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  const statsEl = document.querySelector('.hero-stats');
+  if (statsEl) counterObserver.observe(statsEl);
+
+  // Smooth nav highlight
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background =
+      window.scrollY > 60
+        ? 'rgba(8,8,8,0.97)'
+        : 'linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%)';
+  });
+</script>
+</body>
+</html>
