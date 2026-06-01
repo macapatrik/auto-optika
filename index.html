@@ -187,7 +187,8 @@
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 900px;
+    max-width: 1100px;
+    padding: 0 16px;
   }
 
   .hero-badge {
@@ -217,12 +218,13 @@
   .hero-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(4rem, 10vw, 9rem);
-    line-height: 0.92;
-    letter-spacing: 0.02em;
-    margin-bottom: 8px;
+    line-height: 1.0;
+    letter-spacing: 0.015em;
+    margin-bottom: 12px;
     opacity: 0;
     animation: fade-up 0.8s ease 0.2s forwards;
   }
+  .hero-title .line-yellow, .hero-title .line-white { margin-bottom: 4px; }
   .hero-title .line-yellow {
     display: block;
     color: var(--yellow);
@@ -231,10 +233,11 @@
   .hero-title .line-white { display: block; color: var(--white); }
 
   .hero-sub {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
+    line-height: 1.75;
     color: var(--grey);
-    max-width: 540px;
-    margin: 28px auto 48px;
+    max-width: 620px;
+    margin: 36px auto 56px;
     opacity: 0;
     animation: fade-up 0.8s ease 0.4s forwards;
   }
@@ -393,18 +396,18 @@
   }
 
   /* ============ SECTIONS ============ */
-  section { padding: 100px 48px; }
+  section { padding: 120px 48px; }
 
   .section-label {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--yellow);
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
   .section-label::before {
     content: '';
@@ -415,9 +418,9 @@
   .section-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(2.8rem, 5vw, 5rem);
-    line-height: 0.95;
-    letter-spacing: 0.02em;
-    margin-bottom: 24px;
+    line-height: 1.04;
+    letter-spacing: 0.015em;
+    margin-bottom: 32px;
   }
 
   /* ============ PROBLEM/TARGET ============ */
@@ -427,9 +430,9 @@
     grid-template-columns: 1fr 1fr;
     gap: 80px;
     align-items: center;
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
-    padding: 100px 48px;
+    padding: 120px 48px;
   }
 
   .problem-visual {
@@ -498,7 +501,7 @@
   /* ============ PROCESS ============ */
   #process {
     background: var(--black);
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
   }
   .process-header {
@@ -557,7 +560,7 @@
   /* ============ BEFORE/AFTER ============ */
   #results {
     background: var(--deep);
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
   }
   .ba-container {
@@ -665,7 +668,7 @@
   /* ============ PRICING ============ */
   #pricing {
     background: var(--black);
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
   }
   .pricing-header {
@@ -788,7 +791,7 @@
   /* ============ WHY US ============ */
   #why {
     background: var(--deep);
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
   }
   .why-grid {
@@ -875,9 +878,9 @@
   /* ============ TARGET VEHICLES ============ */
   #vehicles {
     background: var(--black);
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
-    padding: 100px 48px;
+    padding: 120px 48px;
   }
   .vehicles-intro {
     display: grid;
@@ -927,9 +930,9 @@
   /* ============ REVIEWS ============ */
   #reviews {
     background: var(--deep);
-    max-width: 1300px;
+    max-width: 1480px;
     margin: 0 auto;
-    padding: 100px 48px;
+    padding: 120px 48px;
   }
   .reviews-header {
     display: grid;
@@ -979,8 +982,8 @@
 
   /* ============ CTA ============ */
   #cta {
-    background: var(--black);
-    padding: 120px 48px;
+    background: var(--deep);
+    padding: 140px 48px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -999,8 +1002,9 @@
   .cta-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(3rem, 7vw, 6.5rem);
-    line-height: 0.92;
-    margin-bottom: 24px;
+    line-height: 1.02;
+    letter-spacing: 0.015em;
+    margin-bottom: 32px;
   }
   .cta-title span { color: var(--yellow); text-shadow: 0 0 60px rgba(245,216,50,0.4); }
   .cta-sub {
@@ -1240,7 +1244,7 @@
 </div>
 
 <!-- PROBLEM SECTION (s integrovanými cílovými vozidly) -->
-<section id="problem-section" style="background:var(--deep); padding:100px 0;">
+<section id="problem-section" style="background:var(--deep); padding:120px 0;">
 <div id="problem">
   <div>
     <div class="section-label reveal-left">Komu to děláme</div>
@@ -1279,7 +1283,7 @@
 </div>
 
 <!-- Pro koho — integrováno do problem -->
-<div style="max-width:1300px; margin:64px auto 0; padding:0 48px;">
+<div style="max-width:1480px; margin:64px auto 0; padding:0 48px;">
   <div class="section-label reveal-left" style="margin-bottom:20px;">Specializace</div>
   <div class="vehicle-grid reveal">
     <div class="vehicle-card">
@@ -1319,7 +1323,7 @@
 </section>
 
 <!-- PROCESS -->
-<section id="process" style="padding:100px 48px;">
+<section id="process" style="padding:120px 48px;">
   <div class="process-header">
     <div>
       <div class="section-label reveal-left">Jak to děláme</div>
@@ -1360,8 +1364,8 @@
 <div class="divider"></div>
 
 <!-- BEFORE/AFTER -->
-<section id="results" style="background:var(--deep); padding:100px 48px;">
-  <div id="results-inner" style="max-width:1300px; margin:0 auto;">
+<section id="results" style="background:var(--deep); padding:120px 48px;">
+  <div id="results-inner" style="max-width:1480px; margin:0 auto;">
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:end; margin-bottom:64px;">
       <div>
         <div class="section-label reveal-left">Před & Po</div>
@@ -1430,8 +1434,8 @@
 </section>
 
 <!-- WHY US -->
-<section id="why" style="background:var(--deep); padding:100px 48px;">
-  <div id="why-inner" style="max-width:1300px; margin:0 auto;">
+<section id="why" style="padding:120px 48px;">
+  <div id="why-inner" style="max-width:1480px; margin:0 auto;">
     <div class="section-label reveal-left">Proč my</div>
     <div class="why-grid">
       <div class="why-list">
@@ -1499,7 +1503,7 @@
 
 
 <!-- REVIEWS -->
-<section id="reviews">
+<section id="reviews" style="background:var(--deep); padding:120px 48px;">
   <div class="reviews-header">
     <div>
       <div class="section-label reveal-left">Hodnocení</div>
@@ -1536,7 +1540,7 @@
 </section>
 
 <!-- PRICING -->
-<section id="pricing" style="background:var(--deep); padding:100px 48px;">
+<section id="pricing" style="padding:120px 48px;">
   <div class="pricing-header">
     <div>
       <div class="section-label reveal-left">Transparentní ceny</div>
