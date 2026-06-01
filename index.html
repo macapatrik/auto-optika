@@ -69,42 +69,6 @@
     opacity: 0.4;
   }
 
-  /* ============ PARALLAX BG ORBS ============ */
-  .bg-orbs {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .bg-orb {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(245,216,50,0.22) 0%, rgba(245,216,50,0.08) 40%, transparent 70%);
-    filter: blur(60px);
-    will-change: transform;
-    transform: translate3d(0,0,0);
-  }
-  .bg-orb-1 { width: 520px; height: 520px; top: 8%; left: -120px; opacity: 0.55; }
-  .bg-orb-2 { width: 380px; height: 380px; top: 40%; right: -80px; opacity: 0.4; }
-  .bg-orb-3 { width: 600px; height: 600px; top: 75%; left: 30%; opacity: 0.35; }
-  .bg-orb-4 { width: 320px; height: 320px; top: 130%; right: 20%; opacity: 0.45; }
-
-  /* zajistit, ze obsah je nad orby */
-  nav, section, footer, .marquee-strip { position: relative; z-index: 1; }
-
-  @media (max-width: 900px) {
-    .bg-orb { filter: blur(48px); }
-    .bg-orb-1 { width: 340px; height: 340px; }
-    .bg-orb-2 { width: 280px; height: 280px; }
-    .bg-orb-3 { width: 380px; height: 380px; }
-    .bg-orb-4 { width: 240px; height: 240px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .bg-orb { transition: none !important; animation: none !important; }
-  }
-
   /* ============ NAV ============ */
   nav {
     position: fixed;
@@ -1185,14 +1149,6 @@
 </head>
 <body>
 
-<!-- Parallax background orbs -->
-<div class="bg-orbs" aria-hidden="true">
-  <div class="bg-orb bg-orb-1" data-speed="0.18"></div>
-  <div class="bg-orb bg-orb-2" data-speed="0.32"></div>
-  <div class="bg-orb bg-orb-3" data-speed="0.12"></div>
-  <div class="bg-orb bg-orb-4" data-speed="0.24"></div>
-</div>
-
 <!-- Custom cursor -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -1696,35 +1652,6 @@
 </footer>
 
 <script>
-  // === PARALLAX BG ORBS (scroll-driven, GPU akcel., minimalistické) ===
-  (function() {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return;
-    const orbs = document.querySelectorAll('.bg-orb');
-    if (!orbs.length) return;
-    let targetY = window.scrollY;
-    let currentY = targetY;
-    let ticking = false;
-    function loop() {
-      currentY += (targetY - currentY) * 0.08;
-      for (let i = 0; i < orbs.length; i++) {
-        const speed = parseFloat(orbs[i].dataset.speed) || 0.2;
-        const x = Math.sin((currentY + i * 200) * 0.0008) * 30;
-        orbs[i].style.transform = 'translate3d(' + x + 'px,' + (-currentY * speed) + 'px,0)';
-      }
-      if (Math.abs(targetY - currentY) > 0.5) {
-        requestAnimationFrame(loop);
-      } else {
-        ticking = false;
-      }
-    }
-    window.addEventListener('scroll', () => {
-      targetY = window.scrollY;
-      if (!ticking) { ticking = true; requestAnimationFrame(loop); }
-    }, { passive: true });
-    loop();
-  })();
-
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
